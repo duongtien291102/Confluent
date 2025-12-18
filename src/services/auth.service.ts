@@ -6,11 +6,10 @@ export const authService = {
     async login(credentials: LoginCredentials): Promise<User> {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // Check for admin credentials
-        if (credentials.email === 'admin' && credentials.password === '123') {
+        if (credentials.email === 'admin' && credentials.password === '123456') {
             currentUser = {
                 id: '1',
-                email: 'admin',
+                email: 'admin@gmail.com',
                 name: 'Administrator',
                 role: 'Admin',
             };
