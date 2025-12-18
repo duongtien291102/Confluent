@@ -29,15 +29,6 @@ const LoginView: React.FC<LoginViewProps> = ({
                 </div>
 
                 <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl shadow-gray-200/50 p-8 animate-slideUp border border-white/50">
-                    {/* Demo Account Info */}
-                    <div className="bg-blue-50 text-blue-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2 mb-5 border border-blue-100">
-                        <span>ℹ️</span> 
-                        <div>
-                            <strong>Tài khoản demo:</strong><br />
-                            Email: <code className="bg-blue-100 px-1 rounded">admin</code> | 
-                            Mật khẩu: <code className="bg-blue-100 px-1 rounded">123</code>
-                        </div>
-                    </div>
 
                     <form onSubmit={onSubmit} className="space-y-5">
                         {error && (
@@ -53,7 +44,7 @@ const LoginView: React.FC<LoginViewProps> = ({
                                 value={credentials.email}
                                 onChange={(e) => onCredentialsChange({ ...credentials, email: e.target.value })}
                                 className="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F79E61]/50 focus:border-[#F79E61] transition-all duration-200 hover:border-gray-300 placeholder:text-gray-400"
-                                placeholder="admin"
+                                placeholder="admin@gmail.com"
                                 required
                             />
                         </div>
@@ -66,7 +57,7 @@ const LoginView: React.FC<LoginViewProps> = ({
                                     value={credentials.password}
                                     onChange={(e) => onCredentialsChange({ ...credentials, password: e.target.value })}
                                     className="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F79E61]/50 focus:border-[#F79E61] transition-all duration-200 hover:border-gray-300 placeholder:text-gray-400 pr-12"
-                                    placeholder="123"
+                                    placeholder="123456"
                                     required
                                 />
                                 <button type="button" onClick={onTogglePassword} className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors">
