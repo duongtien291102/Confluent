@@ -1,5 +1,4 @@
 import type { Job } from '../models';
-
 export const mockJobs: Job[] = [
     {
         id: '1',

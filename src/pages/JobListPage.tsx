@@ -1,9 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { jobService } from '../services/job.service';
 import type { Job } from '../models';
 import { JobListView } from '../views/job';
-
 const JobListPage: React.FC = () => {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [allJobs, setAllJobs] = useState<Job[]>([]);
@@ -11,56 +10,54 @@ const JobListPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
-    
     const navigate = useNavigate();
-
+    const location = useLocation();
+    const projectFilter = location.state?.projectFilter;
     const loadJobs = useCallback(async () => {
         setIsLoading(true);
         const data = await jobService.getJobs();
         setAllJobs(data);
         setIsLoading(false);
     }, []);
-
     useEffect(() => {
         loadJobs();
     }, [loadJobs]);
-
+    useEffect(() => {
+        if (projectFilter) {
+            setSearchTerm(projectFilter);
+        }
+    }, [projectFilter]);
     useEffect(() => {
         let filtered = allJobs;
-
         if (searchTerm) {
             filtered = allJobs.filter(job =>
                 job.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                job.name.toLowerCase().includes(searchTerm.toLowerCase())
+                job.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                job.project?.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
-
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         setJobs(filtered.slice(startIndex, endIndex));
     }, [allJobs, searchTerm, currentPage, itemsPerPage]);
-
     const handleSearchChange = (term: string) => {
         setSearchTerm(term);
         setCurrentPage(1);
     };
-
     const handleItemsPerPageChange = (count: number) => {
         setItemsPerPage(count);
         setCurrentPage(1);
     };
-
     const filteredCount = searchTerm
         ? allJobs.filter(job =>
             job.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            job.name.toLowerCase().includes(searchTerm.toLowerCase())
+            job.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.project?.toLowerCase().includes(searchTerm.toLowerCase())
         ).length
         : allJobs.length;
-
     const handleJobClick = (jobId: string) => {
         navigate(`/job/${jobId}`);
     };
-
     return (
         <JobListView
             jobs={jobs}
@@ -76,5 +73,4 @@ const JobListPage: React.FC = () => {
         />
     );
 };
-
 export default JobListPage;

@@ -1,5 +1,4 @@
 import type { Member } from '../../data/members.data';
-
 interface MemberSelectViewProps {
     isOpen: boolean;
     searchTerm: string;
@@ -14,7 +13,6 @@ interface MemberSelectViewProps {
     containerRef: React.RefObject<HTMLDivElement | null>;
     inputRef: React.RefObject<HTMLInputElement | null>;
 }
-
 export const MemberSelectView: React.FC<MemberSelectViewProps> = ({
     isOpen,
     searchTerm,
@@ -53,7 +51,6 @@ export const MemberSelectView: React.FC<MemberSelectViewProps> = ({
                         </button>
                     </span>
                 ))}
-
                 <input
                     ref={inputRef}
                     type="text"
@@ -63,14 +60,12 @@ export const MemberSelectView: React.FC<MemberSelectViewProps> = ({
                     placeholder={selectedMembers.length > 0 ? '' : placeholder}
                     className="flex-1 min-w-[120px] outline-none bg-transparent text-sm"
                 />
-
                 <span className="text-gray-400 ml-auto">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </span>
             </div>
-
             {isOpen && filteredMembers.length > 0 && (
                 <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto animate-slideDown">
                     {filteredMembers.map(member => (
@@ -91,7 +86,6 @@ export const MemberSelectView: React.FC<MemberSelectViewProps> = ({
                     ))}
                 </div>
             )}
-
             {isOpen && searchTerm && filteredMembers.length === 0 && (
                 <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-4 text-center text-gray-500 text-sm">
                     Không tìm thấy thành viên
@@ -100,5 +94,4 @@ export const MemberSelectView: React.FC<MemberSelectViewProps> = ({
         </div>
     );
 };
-
 export default MemberSelectView;

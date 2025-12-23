@@ -1,7 +1,4 @@
-// Mock data for Dashboard stats
-
 import type { StatCard } from '../models';
-
 export const mockStats: StatCard[] = [
     { id: '1', title: 'Total Users', value: '1,234', icon: '📊', trend: { value: 12.5, isPositive: true }, color: 'blue' },
     { id: '2', title: 'Revenue', value: '$45,678', icon: '💰', trend: { value: 8.2, isPositive: true }, color: 'green' },

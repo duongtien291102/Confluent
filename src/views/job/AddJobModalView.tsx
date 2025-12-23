@@ -1,35 +1,20 @@
 import ManagerSearch from '../../components/dashboard/ManagerSearch';
 import MemberSelectView from '../../components/dashboard/MemberSelect';
 import type { Member } from '../../data/members.data';
-
 interface AddJobModalViewProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-
-    // Form data handled by parent container, but we can pass individual setters or a data object if we want controlled inputs.
-    // For now, let's follow the AddProject pattern: props for dynamic data and change handlers.
-
     manager: string;
     onManagerChange: (value: string) => void;
-
     selectedMembers: Member[];
     onMembersChange: (members: Member[]) => void;
-
-
-
-    // We can use uncontrolled inputs for simple fields (name, type, etc) or controlled.
-    // Given the date logic and validation, mixed or controlled is common.
-    // Let's stick to mostly uncontrolled or minimal controlled for simplicity unless state is needed.
-    // Actually, AddProjectModal uses uncontrolled for simple fields but controlled for complex ones.
-
     startDate: string;
     endDate: string;
     estimatedHours: number;
     onStartDateChange: (date: string) => void;
     onEndDateChange: (date: string) => void;
 }
-
 const AddJobModalView: React.FC<AddJobModalViewProps> = ({
     isOpen,
     onClose,
@@ -45,20 +30,15 @@ const AddJobModalView: React.FC<AddJobModalViewProps> = ({
     onEndDateChange,
 }) => {
     if (!isOpen) return null;
-
     const today = new Date().toISOString().split('T')[0];
-
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center animate-fadeIn">
             <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose}></div>
-
             <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 animate-scaleIn max-h-[90vh] overflow-y-auto">
                 <div className="px-8 py-6 border-b border-gray-100 sticky top-0 bg-white z-10">
                     <h2 className="text-xl font-bold text-gray-800">Thêm Công Việc</h2>
                 </div>
-
                 <form onSubmit={onSubmit} className="px-8 py-6 space-y-5">
-
                     {/* Row 1: Tên Công Việc */}
                     <div>
                         <label className="block text-sm text-gray-600 mb-2">Tên Công Việc: *</label>
@@ -69,7 +49,6 @@ const AddJobModalView: React.FC<AddJobModalViewProps> = ({
                             className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F79E61]/50 focus:border-[#F79E61] transition-all"
                         />
                     </div>
-
                     {/* Row 2: Loại công việc | Nhóm công việc | Dự án */}
                     <div className="grid grid-cols-3 gap-6">
                         <div>
@@ -109,7 +88,6 @@ const AddJobModalView: React.FC<AddJobModalViewProps> = ({
                             />
                         </div>
                     </div>
-
                     {/* Row 3: Mô Tả */}
                     <div>
                         <label className="block text-sm text-gray-600 mb-2">Mô Tả:</label>
@@ -119,7 +97,6 @@ const AddJobModalView: React.FC<AddJobModalViewProps> = ({
                             className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F79E61]/50 focus:border-[#F79E61] transition-all resize-none"
                         ></textarea>
                     </div>
-
                     {/* Row 4: Người giao | Người được giao */}
                     <div className="grid grid-cols-2 gap-6">
                         <div>
@@ -137,7 +114,6 @@ const AddJobModalView: React.FC<AddJobModalViewProps> = ({
                             />
                         </div>
                     </div>
-
                     {/* Row 5: Thời Gian Thực Hiện | Thời Gian Kết Thúc */}
                     <div className="grid grid-cols-2 gap-6">
                         <div>
@@ -163,7 +139,6 @@ const AddJobModalView: React.FC<AddJobModalViewProps> = ({
                             />
                         </div>
                     </div>
-
                     {/* Row 6: Thời Gian Dự Kiến | Mức độ ưu tiên */}
                     <div className="grid grid-cols-2 gap-6">
                         <div>
@@ -195,7 +170,6 @@ const AddJobModalView: React.FC<AddJobModalViewProps> = ({
                             </select>
                         </div>
                     </div>
-
                     {/* Buttons */}
                     <div className="flex justify-end gap-3 pt-4">
                         <button
@@ -217,5 +191,4 @@ const AddJobModalView: React.FC<AddJobModalViewProps> = ({
         </div>
     );
 };
-
 export default AddJobModalView;

@@ -2,17 +2,14 @@ import { useState } from 'react';
 import type { LoginCredentials, User } from '../models';
 import { authService } from '../services';
 import { LoginView } from '../views';
-
 interface LoginPageProps {
     onLoginSuccess?: (user: User) => void;
 }
-
 const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     const [credentials, setCredentials] = useState<LoginCredentials>({ email: '', password: '', rememberMe: false });
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
@@ -26,7 +23,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             setIsLoading(false);
         }
     };
-
     return (
         <LoginView
             credentials={credentials}
@@ -39,5 +35,4 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         />
     );
 };
-
 export default LoginPage;

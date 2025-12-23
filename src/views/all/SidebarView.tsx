@@ -3,7 +3,6 @@ interface MenuItem {
     label: string;
     icon: React.ReactNode;
 }
-
 interface SidebarViewProps {
     isCollapsed: boolean;
     activeItem: string;
@@ -12,7 +11,6 @@ interface SidebarViewProps {
     onMenuClick: (id: string) => void;
     onLogout: () => void;
 }
-
 function HomeIcon() {
     return <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
 }
@@ -43,7 +41,6 @@ function ChevronIcon({ isCollapsed }: { isCollapsed: boolean }) {
         </svg>
     );
 }
-
 export const defaultMenuItems: MenuItem[] = [
     { id: 'home', label: 'Trang chủ', icon: <HomeIcon /> },
     { id: 'tasks', label: 'Danh sách công việc', icon: <TaskIcon /> },
@@ -51,7 +48,6 @@ export const defaultMenuItems: MenuItem[] = [
     { id: 'reports', label: 'Báo cáo', icon: <ReportIcon /> },
     { id: 'settings', label: 'Cài đặt', icon: <SettingsIcon /> },
 ];
-
 const SidebarView: React.FC<SidebarViewProps> = ({
     isCollapsed,
     activeItem,
@@ -71,7 +67,6 @@ const SidebarView: React.FC<SidebarViewProps> = ({
             >
                 <ChevronIcon isCollapsed={isCollapsed} />
             </button>
-
             <div className="flex items-center gap-3 p-4 border-b border-gray-100">
                 <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">NB</div>
                 {!isCollapsed && (
@@ -81,7 +76,6 @@ const SidebarView: React.FC<SidebarViewProps> = ({
                     </div>
                 )}
             </div>
-
             <nav className="flex-1 py-4 overflow-y-auto">
                 <ul className="flex flex-col gap-1 px-3">
                     {menuItems.map((item) => (
@@ -94,7 +88,6 @@ const SidebarView: React.FC<SidebarViewProps> = ({
                     ))}
                 </ul>
             </nav>
-
             <div className="p-3 border-t border-gray-100">
                 <button onClick={onLogout} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-all">
                     <LogoutIcon />
@@ -104,5 +97,4 @@ const SidebarView: React.FC<SidebarViewProps> = ({
         </aside>
     );
 };
-
 export default SidebarView;

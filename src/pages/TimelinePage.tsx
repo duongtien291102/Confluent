@@ -1,8 +1,6 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { jobService } from '../services/job.service';
 import type { Job } from '../models';
-
-// Timeline task interface for UI
 interface TimelineTask {
     id: string;
     memberName: string;
@@ -13,25 +11,19 @@ interface TimelineTask {
     endDate: Date;
     color: string;
 }
-
 type ViewMode = '15min' | 'day' | 'week';
-
 const TimelinePage: React.FC = () => {
     const [viewMode, setViewMode] = useState<ViewMode>('day');
     const [jobs, setJobs] = useState<Job[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    // Parse DD/MM/YYYY HH:mm format
     const parseCustomDate = (dateString: string): Date | null => {
         if (!dateString) return null;
         const parts = dateString.split(' ');
         const dateParts = parts[0].split('/');
         if (dateParts.length !== 3) return null;
-
         const day = parseInt(dateParts[0], 10);
         const month = parseInt(dateParts[1], 10) - 1; // 0-indexed month
         const year = parseInt(dateParts[2], 10);
-
         let hours = 0;
         let minutes = 0;
         if (parts[1]) {
@@ -39,11 +31,9 @@ const TimelinePage: React.FC = () => {
             hours = parseInt(timeParts[0], 10);
             minutes = parseInt(timeParts[1], 10);
         }
-
         const date = new Date(year, month, day, hours, minutes);
         return isNaN(date.getTime()) ? null : date;
     };
-
     const loadJobs = useCallback(async () => {
         setIsLoading(true);
         try {
@@ -55,23 +45,18 @@ const TimelinePage: React.FC = () => {
             setIsLoading(false);
         }
     }, []);
-
     useEffect(() => {
         loadJobs();
     }, [loadJobs]);
-
-    // Map real jobs to timeline tasks
     const timelineTasks = useMemo(() => {
         return jobs.map(job => {
             const startDate = parseCustomDate(job.startDate) || new Date();
             const endDate = parseCustomDate(job.endDate) || new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
-
             let color = '#F79E61'; // Orange for In Progress
             if (job.status === 'To Do') color = '#3B82F6'; // Blue
             if (job.status === 'Done') color = '#10B981'; // Green
             if (job.status === 'In Review') color = '#8B5CF6'; // Purple
             if (job.status === 'Blocked') color = '#EF4444'; // Red
-
             return {
                 id: job.id,
                 memberName: job.assignee,
@@ -84,27 +69,19 @@ const TimelinePage: React.FC = () => {
             };
         });
     }, [jobs]);
-
-    // Generate date columns based on view mode
     const { dateColumns, columnWidth, timelineStartDate } = useMemo(() => {
-        // Find earliest job date or use default
         let anchorDate = new Date(2025, 10, 20); // Nov 20, 2025 (matching mock data start)
-
         if (jobs.length > 0) {
             const jobDates = jobs.map(j => parseCustomDate(j.startDate)).filter(d => d !== null) as Date[];
             if (jobDates.length > 0) {
                 anchorDate = new Date(Math.min(...jobDates.map(d => d.getTime())));
-                // Set to start of day
                 anchorDate.setHours(0, 0, 0, 0);
             }
         }
-
         const columns: Date[] = [];
         let width = 120;
-
         if (viewMode === 'day') {
             width = 120;
-            // Show 14 days from anchor
             for (let i = 0; i < 14; i++) {
                 const date = new Date(anchorDate);
                 date.setDate(anchorDate.getDate() + i);
@@ -112,7 +89,6 @@ const TimelinePage: React.FC = () => {
             }
         } else if (viewMode === 'week') {
             width = 200;
-            // Show 8 weeks
             for (let i = 0; i < 8; i++) {
                 const date = new Date(anchorDate);
                 date.setDate(anchorDate.getDate() + i * 7);
@@ -120,31 +96,25 @@ const TimelinePage: React.FC = () => {
             }
         } else {
             width = 80;
-            // Show 24 hours
             for (let i = 0; i < 24; i++) {
                 const date = new Date(anchorDate);
                 date.setHours(anchorDate.getHours() + i);
                 columns.push(date);
             }
         }
-
         return { dateColumns: columns, columnWidth: width, timelineStartDate: anchorDate };
     }, [viewMode, jobs]);
-
     const formatDateHeader = (date: Date) => {
         if (viewMode === '15min') {
             return `${date.getHours().toString().padStart(2, '0')}:00`;
         }
         return `${date.getDate()}/${date.getMonth() + 1}`;
     };
-
     const calculateBarPosition = (task: TimelineTask) => {
         const msPerDay = 24 * 60 * 60 * 1000;
         const msPerHour = 60 * 60 * 1000;
-
         let diffMs = task.startDate.getTime() - timelineStartDate.getTime();
         let durationMs = task.endDate.getTime() - task.startDate.getTime();
-
         if (viewMode === 'day' || viewMode === 'week') {
             const left = (diffMs / msPerDay) * columnWidth;
             const width = (durationMs / msPerDay) * columnWidth;
@@ -155,7 +125,6 @@ const TimelinePage: React.FC = () => {
             return { left, width };
         }
     };
-
     const getStatusBadge = (status: string) => {
         const baseClasses = "px-3 py-1 rounded-md text-[11px] font-bold whitespace-nowrap uppercase tracking-wider shadow-sm";
         switch (status) {
@@ -173,7 +142,6 @@ const TimelinePage: React.FC = () => {
                 return <span className={`${baseClasses} bg-gray-500 text-white`}>{status}</span>;
         }
     };
-
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
@@ -181,7 +149,6 @@ const TimelinePage: React.FC = () => {
             </div>
         );
     }
-
     return (
         <div className="animate-fadeIn pt-1 px-2 pb-4 md:pt-2 md:px-4 md:pb-4">
             {/* View Mode Toggle */}
@@ -201,7 +168,6 @@ const TimelinePage: React.FC = () => {
                     ))}
                 </div>
             </div>
-
             {/* Timeline Grid */}
             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
                 <div className="overflow-x-auto custom-scrollbar">
@@ -229,12 +195,10 @@ const TimelinePage: React.FC = () => {
                                 ))}
                             </tr>
                         </thead>
-
                         {/* Body Rows */}
                         <tbody className="divide-y divide-gray-50">
                             {timelineTasks.map((task) => {
                                 const { left, width } = calculateBarPosition(task);
-
                                 return (
                                     <tr key={task.id} className="group hover:bg-gray-50/30 transition-colors">
                                         <td className="px-6 py-6 text-sm font-bold text-gray-800 sticky left-0 bg-white z-10 group-hover:bg-gray-50/30 transition-colors shadow-[2px_0_10px_-4px_rgba(0,0,0,0.05)]">
@@ -262,7 +226,6 @@ const TimelinePage: React.FC = () => {
                                                     />
                                                 ))}
                                             </div>
-
                                             {/* Task Bar */}
                                             {left >= 0 && (
                                                 <div
@@ -286,7 +249,6 @@ const TimelinePage: React.FC = () => {
                     </table>
                 </div>
             </div>
-
             <style>{`
                 .custom-scrollbar::-webkit-scrollbar {
                     height: 8px;
@@ -306,5 +268,4 @@ const TimelinePage: React.FC = () => {
         </div>
     );
 };
-
 export default TimelinePage;

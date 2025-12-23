@@ -1,5 +1,4 @@
 import type { Member } from '../../data/members.data';
-
 interface ManagerSearchViewProps {
     isOpen: boolean;
     searchTerm: string;
@@ -10,7 +9,6 @@ interface ManagerSearchViewProps {
     onSelect: (member: Member) => void;
     containerRef: React.RefObject<HTMLDivElement | null>;
 }
-
 export const ManagerSearchView: React.FC<ManagerSearchViewProps> = ({
     isOpen,
     searchTerm,
@@ -31,7 +29,6 @@ export const ManagerSearchView: React.FC<ManagerSearchViewProps> = ({
                 placeholder={placeholder}
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F79E61]/50 focus:border-[#F79E61] transition-all"
             />
-
             {isOpen && searchTerm && filteredMembers.length > 0 && (
                 <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto animate-slideDown">
                     {filteredMembers.map(member => (
@@ -52,7 +49,6 @@ export const ManagerSearchView: React.FC<ManagerSearchViewProps> = ({
                     ))}
                 </div>
             )}
-
             {isOpen && searchTerm && filteredMembers.length === 0 && (
                 <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-4 text-center text-gray-500 text-sm">
                     Không tìm thấy
@@ -61,5 +57,4 @@ export const ManagerSearchView: React.FC<ManagerSearchViewProps> = ({
         </div>
     );
 };
-
 export default ManagerSearchView;

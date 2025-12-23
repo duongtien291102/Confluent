@@ -1,5 +1,4 @@
 import type { Member } from '../../data/members.data';
-
 interface AddProjectModalViewProps {
     isOpen: boolean;
     isFormValid: boolean;
@@ -15,7 +14,6 @@ interface AddProjectModalViewProps {
     onStartDateChange: (date: string) => void;
     onEndDateChange: (date: string) => void;
 }
-
 const AddProjectModalView: React.FC<AddProjectModalViewProps> = ({
     isOpen,
     isFormValid,
@@ -32,16 +30,13 @@ const AddProjectModalView: React.FC<AddProjectModalViewProps> = ({
     onEndDateChange,
 }) => {
     if (!isOpen) return null;
-
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center animate-fadeIn">
             <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose}></div>
-
             <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 animate-scaleIn max-h-[90vh] overflow-y-auto">
                 <div className="px-8 py-6 border-b border-gray-100 sticky top-0 bg-white z-10">
                     <h2 className="text-xl font-bold text-gray-800">Thêm Dự Án</h2>
                 </div>
-
                 <form onSubmit={onSubmit} className="px-8 py-6 space-y-5">
                     <div className="grid grid-cols-2 gap-6">
                         <div>
@@ -63,7 +58,6 @@ const AddProjectModalView: React.FC<AddProjectModalViewProps> = ({
                             />
                         </div>
                     </div>
-
                     <div>
                         <label className="block text-sm text-gray-600 mb-2">Mô Tả:</label>
                         <textarea
@@ -72,7 +66,6 @@ const AddProjectModalView: React.FC<AddProjectModalViewProps> = ({
                             className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F79E61]/50 focus:border-[#F79E61] transition-all resize-none"
                         ></textarea>
                     </div>
-
                     <div>
                         <label className="block text-sm text-gray-600 mb-2">Trưởng Dự Án:</label>
                         <ManagerSearchView
@@ -80,7 +73,6 @@ const AddProjectModalView: React.FC<AddProjectModalViewProps> = ({
                             onChange={onManagerChange}
                         />
                     </div>
-
                     <div>
                         <label className="block text-sm text-gray-600 mb-2">Thành Viên:</label>
                         <MemberSelectView
@@ -88,7 +80,6 @@ const AddProjectModalView: React.FC<AddProjectModalViewProps> = ({
                             onChange={onMembersChange}
                         />
                     </div>
-
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm text-gray-600 mb-2">Thời Gian Thực Hiện:</label>
@@ -113,7 +104,6 @@ const AddProjectModalView: React.FC<AddProjectModalViewProps> = ({
                             />
                         </div>
                     </div>
-
                     <div className="flex justify-end gap-3 pt-4">
                         <button
                             type="button"
@@ -137,8 +127,6 @@ const AddProjectModalView: React.FC<AddProjectModalViewProps> = ({
         </div>
     );
 };
-
 import ManagerSearchView from '../../components/dashboard/ManagerSearch';
 import MemberSelectView from '../../components/dashboard/MemberSelect';
-
 export default AddProjectModalView;

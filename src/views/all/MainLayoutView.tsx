@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-
 interface MainLayoutViewProps {
     children: ReactNode;
     isSidebarCollapsed: boolean;
@@ -10,10 +9,12 @@ interface MainLayoutViewProps {
     onBack?: () => void;
     onTimeline?: () => void;
     isJobPage: boolean;
+    isChartPage?: boolean;
     showBackButton?: boolean;
     title?: string;
+    onTimeFilterChange?: (filter: string) => void;
+    currentTimeFilter?: string;
 }
-
 const MainLayoutView: React.FC<MainLayoutViewProps> = ({
     children,
     isSidebarCollapsed,
@@ -24,13 +25,15 @@ const MainLayoutView: React.FC<MainLayoutViewProps> = ({
     onBack,
     onTimeline,
     isJobPage,
+    isChartPage = false,
     showBackButton = false,
     title,
+    onTimeFilterChange,
+    currentTimeFilter,
 }) => {
     return (
         <div className="flex min-h-screen bg-slate-50">
             <SidebarContainer isCollapsed={isSidebarCollapsed} onToggle={onSidebarToggle} onLogout={onLogout} />
-
             <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isSidebarCollapsed ? 'ml-[70px]' : 'ml-[250px]'}`}>
                 <Header
                     title={title}
@@ -39,15 +42,16 @@ const MainLayoutView: React.FC<MainLayoutViewProps> = ({
                     onAddProject={onAddProject}
                     onTimeline={onTimeline}
                     isJobPage={isJobPage}
+                    isChartPage={isChartPage}
                     showBackButton={showBackButton}
+                    onTimeFilterChange={onTimeFilterChange}
+                    currentTimeFilter={currentTimeFilter}
                 />
-                <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+                <main className={`flex-1 overflow-y-auto ${isChartPage ? '' : 'p-6'}`}>{children}</main>
             </div>
         </div>
     );
 };
-
 import { Sidebar as SidebarContainer } from '../../components/all';
 import Header from '../../components/all/Header';
-
 export default MainLayoutView;

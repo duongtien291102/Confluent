@@ -2,13 +2,11 @@ import { useState, useRef, useEffect } from 'react';
 import type { Member } from '../../data/members.data';
 import { mockMembers } from '../../data';
 import { MemberSelectView } from '../../views/dashboard/MemberSelectView';
-
 interface MemberSelectProps {
     selectedMembers: Member[];
     onChange: (members: Member[]) => void;
     placeholder?: string;
 }
-
 const MemberSelect: React.FC<MemberSelectProps> = ({
     selectedMembers,
     onChange,
@@ -18,7 +16,6 @@ const MemberSelect: React.FC<MemberSelectProps> = ({
     const [searchTerm, setSearchTerm] = useState('');
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -28,32 +25,26 @@ const MemberSelect: React.FC<MemberSelectProps> = ({
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-
     const filteredMembers = mockMembers.filter(member =>
         member.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         !selectedMembers.some(s => s.id === member.id)
     );
-
     const handleSelect = (member: Member) => {
         onChange([...selectedMembers, member]);
         setSearchTerm('');
         inputRef.current?.focus();
     };
-
     const handleRemove = (memberId: string) => {
         onChange(selectedMembers.filter(m => m.id !== memberId));
     };
-
     const handleContainerClick = () => {
         inputRef.current?.focus();
         setIsOpen(true);
     };
-
     const handleSearchChange = (term: string) => {
         setSearchTerm(term);
         setIsOpen(true);
     };
-
     return (
         <MemberSelectView
             isOpen={isOpen}
@@ -71,5 +62,4 @@ const MemberSelect: React.FC<MemberSelectProps> = ({
         />
     );
 };
-
 export default MemberSelect;

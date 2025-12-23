@@ -3,20 +3,17 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { jobService } from '../services';
 import type { Job } from '../models';
 import { JobDetailView } from '../views/job';
-
 const JobDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [job, setJob] = useState<Job | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-
     useEffect(() => {
         const loadJob = async () => {
             if (!id) {
                 navigate('/job');
                 return;
             }
-
             setIsLoading(true);
             try {
                 const jobData = await jobService.getJobById(id);
@@ -28,21 +25,16 @@ const JobDetailPage: React.FC = () => {
                 setIsLoading(false);
             }
         };
-
         loadJob();
     }, [id, navigate]);
-
     const handleBack = () => {
         navigate('/job');
     };
-
     const handleEdit = () => {
         console.log('Edit job:', job?.id);
     };
-
     const handleDelete = async () => {
         if (!job) return;
-        
         if (window.confirm('Bạn có chắc chắn muốn xóa công việc này?')) {
             try {
                 await jobService.deleteJob(job.id);
@@ -52,7 +44,6 @@ const JobDetailPage: React.FC = () => {
             }
         }
     };
-
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-64">
@@ -63,7 +54,6 @@ const JobDetailPage: React.FC = () => {
             </div>
         );
     }
-
     if (!job) {
         return (
             <div className="flex items-center justify-center h-64">
@@ -79,7 +69,6 @@ const JobDetailPage: React.FC = () => {
             </div>
         );
     }
-
     return (
         <JobDetailView
             job={job}
@@ -88,5 +77,4 @@ const JobDetailPage: React.FC = () => {
         />
     );
 };
-
 export default JobDetailPage;

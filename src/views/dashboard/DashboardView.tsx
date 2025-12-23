@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import type { Project } from '../../models';
-
 interface DashboardViewProps {
     isLoading: boolean;
     searchTerm: string;
@@ -10,8 +9,8 @@ interface DashboardViewProps {
     onSearchChange: (term: string) => void;
     onTogglePin: (id: string) => void;
     onLoadMore: () => void;
+    onProjectClick?: (project: Project) => void;
 }
-
 const DashboardView: React.FC<DashboardViewProps> = ({
     isLoading,
     searchTerm,
@@ -21,10 +20,10 @@ const DashboardView: React.FC<DashboardViewProps> = ({
     onSearchChange,
     onTogglePin,
     onLoadMore,
+    onProjectClick,
 }) => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const loadMoreTriggerRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -34,14 +33,11 @@ const DashboardView: React.FC<DashboardViewProps> = ({
             },
             { threshold: 0.1 }
         );
-
         if (loadMoreTriggerRef.current) {
             observer.observe(loadMoreTriggerRef.current);
         }
-
         return () => observer.disconnect();
     }, [hasMore, isLoadingMore, onLoadMore]);
-
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-64">
@@ -52,7 +48,6 @@ const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
         );
     }
-
     return (
         <div className="animate-fadeIn">
             <div className="mb-6 animate-slideDown relative z-50">
@@ -69,7 +64,6 @@ const DashboardView: React.FC<DashboardViewProps> = ({
                         placeholder="Tìm Mã dự án hoặc Tên dự án"
                         className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F79E61]/50 focus:border-[#F79E61] transition-all duration-200 hover:border-gray-300"
                     />
-
                     {/* Search Suggestions Dropdown */}
                     {searchTerm.length > 0 && projects.length > 0 && (
                         <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-48 overflow-y-auto animate-slideDown">
@@ -88,7 +82,6 @@ const DashboardView: React.FC<DashboardViewProps> = ({
                     )}
                 </div>
             </div>
-
             <div ref={scrollContainerRef} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-slideUp max-h-[600px] flex flex-col">
                 <div className="bg-gradient-to-r from-[#F79E61] to-[#f0884a] text-white sticky top-0 z-10 flex-shrink-0">
                     <div className="grid grid-cols-12 gap-4 px-6 py-4 text-sm font-semibold">
@@ -99,11 +92,11 @@ const DashboardView: React.FC<DashboardViewProps> = ({
                         <div className="col-span-1 text-center">Ghim</div>
                     </div>
                 </div>
-
                 <div className="divide-y divide-gray-100 overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-orange-200 scrollbar-track-gray-50 hover:scrollbar-thumb-orange-300">
                     {projects.map((project, index) => (
                         <div
                             key={project.id}
+                            onClick={() => onProjectClick?.(project)}
                             className="grid grid-cols-12 gap-4 px-6 py-4 text-sm hover:bg-orange-50/50 transition-colors duration-200 cursor-pointer group animate-slideUp"
                             style={{ animationDelay: `${Math.min(index, 10) * 50}ms` }}
                         >
@@ -126,10 +119,8 @@ const DashboardView: React.FC<DashboardViewProps> = ({
                         </div>
                     ))}
                 </div>
-
                 {/* Infinite scroll trigger */}
                 <div ref={loadMoreTriggerRef} className="h-1" />
-
                 {/* Loading more indicator */}
                 {isLoadingMore && (
                     <div className="px-6 py-4 flex items-center justify-center gap-2 text-gray-500">
@@ -137,9 +128,6 @@ const DashboardView: React.FC<DashboardViewProps> = ({
                         <span className="text-sm">Đang tải thêm...</span>
                     </div>
                 )}
-
-
-
                 {projects.length === 0 && (
                     <div className="px-6 py-12 text-center text-gray-500 animate-fadeIn">
                         <span className="text-4xl mb-4 block">🔍</span>
@@ -150,5 +138,4 @@ const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
     );
 };
-
 export default DashboardView;

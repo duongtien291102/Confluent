@@ -7,7 +7,6 @@ interface LoginViewProps {
     onTogglePassword: () => void;
     onSubmit: (e: React.FormEvent) => void;
 }
-
 const LoginView: React.FC<LoginViewProps> = ({
     credentials,
     showPassword,
@@ -27,16 +26,13 @@ const LoginView: React.FC<LoginViewProps> = ({
                     <h1 className="text-3xl font-bold text-gray-800 tracking-tight">Confluent</h1>
                     <p className="text-gray-500 mt-2">Đăng nhập để tiếp tục</p>
                 </div>
-
                 <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl shadow-gray-200/50 p-8 animate-slideUp border border-white/50">
-
                     <form onSubmit={onSubmit} className="space-y-5">
                         {error && (
                             <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm flex items-center gap-2 animate-scaleIn border border-red-100">
                                 <span>⚠️</span> {error}
                             </div>
                         )}
-
                         <div className="space-y-2">
                             <label className="block text-sm font-medium text-gray-700">Tài Khoản hoặc Email</label>
                             <input
@@ -48,7 +44,6 @@ const LoginView: React.FC<LoginViewProps> = ({
                                 required
                             />
                         </div>
-
                         <div className="space-y-2">
                             <label className="block text-sm font-medium text-gray-700">Mật khẩu</label>
                             <div className="relative group">
@@ -65,7 +60,6 @@ const LoginView: React.FC<LoginViewProps> = ({
                                 </button>
                             </div>
                         </div>
-
                         <div className="flex items-center justify-between">
                             <label className="flex items-center gap-2.5 cursor-pointer group">
                                 <input type="checkbox" checked={credentials.rememberMe} onChange={(e) => onCredentialsChange({ ...credentials, rememberMe: e.target.checked })} className="w-4 h-4 text-[#F79E61] rounded border-gray-300 focus:ring-[#F79E61] transition-colors" />
@@ -73,7 +67,6 @@ const LoginView: React.FC<LoginViewProps> = ({
                             </label>
                             <a href="#" className="text-sm text-[#F79E61] hover:text-[#e88d50] hover:underline transition-colors font-medium">Quên mật khẩu?</a>
                         </div>
-
                         <button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-[#F79E61] to-[#f0884a] hover:from-[#e88d50] hover:to-[#e07d3a] text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-lg shadow-orange-200/50 hover:shadow-xl hover:shadow-orange-300/50 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] flex items-center justify-center gap-2">
                             {isLoading ? (
                                 <>
@@ -85,17 +78,14 @@ const LoginView: React.FC<LoginViewProps> = ({
                             )}
                         </button>
                     </form>
-
                     <p className="mt-8 text-center text-sm text-gray-500">
                         Chưa có tài khoản?{' '}
                         <a href="#" className="text-[#F79E61] font-semibold hover:text-[#e88d50] hover:underline transition-colors">Đăng ký ngay</a>
                     </p>
                 </div>
-
                 <p className="text-center text-xs text-gray-400 mt-6">© 2024 Confluent by Hoanghuy UDS.</p>
             </div>
         </div>
     );
 };
-
 export default LoginView;

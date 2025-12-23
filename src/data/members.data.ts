@@ -1,12 +1,9 @@
-// Mock data for Members
-
 export interface Member {
     id: string;
     name: string;
     role: string;
     avatar?: string;
 }
-
 export const mockMembers: Member[] = [
     { id: '1', name: 'Nguyễn Bảo Thành', role: 'BA' },
     { id: '2', name: 'Trần Thị B', role: 'Developer' },

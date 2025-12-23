@@ -1094,3 +1094,75 @@ button:focus {
     font-size: 12px;
   }
 }
+/* Productivity Chart Animations */
+@keyframes barGrowUp {
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes chartFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Chart container animation */
+.productivity-chart-container {
+  animation: chartFadeIn 0.6s ease-out;
+}
+
+/* Bar animation với staggered delay */
+.recharts-bar-rectangle {
+  animation: barGrowUp 0.8s ease-out;
+}
+
+.recharts-bar-rectangle:nth-child(1) { animation-delay: 0.1s; }
+.recharts-bar-rectangle:nth-child(2) { animation-delay: 0.15s; }
+.recharts-bar-rectangle:nth-child(3) { animation-delay: 0.2s; }
+.recharts-bar-rectangle:nth-child(4) { animation-delay: 0.25s; }
+.recharts-bar-rectangle:nth-child(5) { animation-delay: 0.3s; }
+.recharts-bar-rectangle:nth-child(6) { animation-delay: 0.35s; }
+.recharts-bar-rectangle:nth-child(7) { animation-delay: 0.4s; }
+.recharts-bar-rectangle:nth-child(8) { animation-delay: 0.45s; }
+.recharts-bar-rectangle:nth-child(9) { animation-delay: 0.5s; }
+.recharts-bar-rectangle:nth-child(10) { animation-delay: 0.55s; }
+.recharts-bar-rectangle:nth-child(11) { animation-delay: 0.6s; }
+.recharts-bar-rectangle:nth-child(12) { animation-delay: 0.65s; }
+
+/* Hover effects cho chart */
+.recharts-bar-rectangle {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Accessibility improvements */
+.productivity-chart-container:focus-within {
+  outline: 2px solid #6366F1;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .productivity-chart-container {
+    border: 1px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .recharts-bar-rectangle,
+  .productivity-chart-container {
+    animation: none;
+  }
+}

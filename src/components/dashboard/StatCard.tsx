@@ -1,16 +1,13 @@
 import type { StatCard } from '../../models';
-
 const colorClasses = {
     blue: 'from-blue-50 to-indigo-100',
     green: 'from-green-50 to-emerald-100',
     purple: 'from-purple-50 to-violet-100',
     orange: 'from-amber-50 to-orange-100',
 };
-
 interface StatCardProps {
     stat: StatCard;
 }
-
 const StatCardComponent: React.FC<StatCardProps> = ({ stat }) => {
     return (
         <div className="bg-white rounded-2xl p-6 flex items-center gap-4 shadow-sm cursor-pointer
@@ -41,5 +38,4 @@ const StatCardComponent: React.FC<StatCardProps> = ({ stat }) => {
         </div>
     );
 };
-
 export default StatCardComponent;

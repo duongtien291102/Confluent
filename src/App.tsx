@@ -2,28 +2,24 @@ import { useState, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { MainLayout, AddProjectModal } from './components';
 import AddJobModal from './components/job/AddJobModal';
-import { DashboardPage, LoginPage, JobListPage, JobDetailPage, TimelinePage } from './pages';
+import { DashboardPage, LoginPage, JobListPage, JobDetailPage, TimelinePage, ChartPage } from './pages';
 import { projectService, authService, jobService } from './services';
 import type { User, CreateJobInput, CreateProjectInput } from './models';
-
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isJobModalOpen, setIsJobModalOpen] = useState(false);
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-
   const handleLoginSuccess = (user: User) => {
     setCurrentUser(user);
     setIsAuthenticated(true);
   };
-
   const handleLogout = () => {
     authService.logout();
     setCurrentUser(null);
     setIsAuthenticated(false);
   };
-
   const handleAddJob = useCallback(async (input: CreateJobInput) => {
     try {
       await jobService.addJob(input);
@@ -33,7 +29,6 @@ function App() {
       console.error('Failed to add job:', error);
     }
   }, []);
-
   const handleAddProject = useCallback(async (input: CreateProjectInput) => {
     try {
       await projectService.addProject(input);
@@ -43,7 +38,6 @@ function App() {
       console.error('Failed to add project:', error);
     }
   }, []);
-
   if (!isAuthenticated) {
     return (
       <BrowserRouter>
@@ -54,7 +48,6 @@ function App() {
       </BrowserRouter>
     );
   }
-
   return (
     <BrowserRouter>
       <AppContent
@@ -72,7 +65,6 @@ function App() {
     </BrowserRouter>
   );
 };
-
 const AppContent: React.FC<{
   isAuthenticated: boolean;
   currentUser: any;
@@ -97,15 +89,18 @@ const AppContent: React.FC<{
   setIsProjectModalOpen
 }) => {
     const navigate = useNavigate();
-
+    const [currentTimeFilter, setCurrentTimeFilter] = useState('all');
+    
     const handleBack = () => {
       navigate('/job');
     };
-
     const handleTimeline = () => {
       navigate('/job/timeline');
     };
-
+    
+    const handleTimeFilterChange = (filter: string) => {
+      setCurrentTimeFilter(filter);
+    };
     if (!isAuthenticated) {
       return (
         <Routes>
@@ -114,7 +109,6 @@ const AppContent: React.FC<{
         </Routes>
       );
     }
-
     return (
       <>
         <MainLayout
@@ -123,9 +117,12 @@ const AppContent: React.FC<{
           onAddProject={() => setIsProjectModalOpen(true)}
           onBack={handleBack}
           onTimeline={handleTimeline}
+          onTimeFilterChange={handleTimeFilterChange}
+          currentTimeFilter={currentTimeFilter}
         >
           <Routes>
             <Route path="/dashboard" element={<DashboardPage key={refreshKey} />} />
+            <Route path="/chart" element={<ChartPage />} />
             <Route path="/job" element={<JobListPage />} />
             <Route path="/job/timeline" element={<TimelinePage />} />
             <Route path="/job/:id" element={<JobDetailPage />} />
@@ -149,5 +146,4 @@ const AppContent: React.FC<{
       </>
     );
   }
-
 export default App;

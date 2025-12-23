@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
 import type { Job } from '../../models';
-
 interface JobDetailViewProps {
   job: Job;
   onEdit?: () => void;
   onDelete?: () => void;
 }
-
 const EditIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
   </svg>
 );
-
 const TrashIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
   </svg>
 );
-
 const FolderIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2l5 2h9a2 2 0 0 1 2 2z" />
   </svg>
 );
-
 const CalendarIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -33,7 +28,6 @@ const CalendarIcon = () => (
     <line x1="3" y1="10" x2="21" y2="10" />
   </svg>
 );
-
 const DocumentIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -42,49 +36,36 @@ const DocumentIcon = () => (
     <line x1="16" y1="17" x2="8" y2="17" />
   </svg>
 );
-
 const UserIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
     <circle cx="12" cy="7" r="4" />
   </svg>
 );
-
 const ChevronDownIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M19 9l-7 7-7-7" />
   </svg>
 );
-
-// Helper functions
 const formatDate = (dateString: string) => {
   if (!dateString) return 'Chưa xác định';
-
-  // Parse DD/MM/YYYY HH:mm format
   const parts = dateString.split(' ');
   const dateParts = parts[0].split('/');
-
   if (dateParts.length !== 3) {
     return 'Chưa xác định';
   }
-
   const day = parseInt(dateParts[0], 10);
   const month = parseInt(dateParts[1], 10);
   const year = parseInt(dateParts[2], 10);
-
   if (isNaN(day) || isNaN(month) || isNaN(year)) {
     return 'Chưa xác định';
   }
-
-  // Return simple DD/MM/YYYY format
   return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
 };
-
 const getInitials = (name: string) => {
   if (!name) return '??';
   return name.split(' ').map(word => word.charAt(0)).join('').toUpperCase().slice(0, 2);
 };
-
 export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDelete }) => {
   const [activeTab, setActiveTab] = useState('details');
   const [priority, setPriority] = useState(job.priority);
@@ -92,14 +73,11 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
   const [group, setGroup] = useState(job.group);
   const [type, setType] = useState(job.type);
   const [description, setDescription] = useState(job.description || '');
-
   const handleSave = () => {
-    // TODO: Call API to save changes
     if (onEdit) {
       onEdit();
     }
   };
-
   return (
     <div className="job-detail-page">
       <div className="job-detail-content">
@@ -126,7 +104,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                 </button>
               </div>
             </div>
-
             {/* Form Fields */}
             <div className="form-fields">
               <div className="form-row">
@@ -146,7 +123,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                     <ChevronDownIcon />
                   </div>
                 </div>
-
                 <div className="form-field">
                   <label className="field-label">Trạng thái hiện tại</label>
                   <div className="select-wrapper">
@@ -165,7 +141,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                   </div>
                 </div>
               </div>
-
               <div className="form-row">
                 <div className="form-field">
                   <label className="field-label">Nhóm công việc</label>
@@ -185,7 +160,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                     <ChevronDownIcon />
                   </div>
                 </div>
-
                 <div className="form-field">
                   <label className="field-label">Loại công việc</label>
                   <div className="select-wrapper">
@@ -203,7 +177,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                   </div>
                 </div>
               </div>
-
               {/* Description */}
               <div className="form-field form-field-full">
                 <label className="field-label">Mô Tả:</label>
@@ -215,7 +188,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                   placeholder="Nhập mô tả công việc..."
                 />
               </div>
-
               {/* Upload File */}
               <div className="form-field form-field-full">
                 <label className="field-label">Upload file:</label>
@@ -224,11 +196,8 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
-
         {/* Right Panel - Info */}
         <div className="job-detail-info-panel">
           <div className="job-detail-card">
@@ -248,7 +217,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                 <div className="info-value-text">{job.code}</div>
               </div>
             </div>
-
             {/* Start Date */}
             <div className="info-row">
               <div className="info-item">
@@ -259,7 +227,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                 <div className="info-value-text info-value-bold">{formatDate(job.startDate)}</div>
               </div>
             </div>
-
             {/* End Date */}
             <div className="info-row">
               <div className="info-item">
@@ -270,7 +237,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                 <div className="info-value-text info-value-bold">{formatDate(job.endDate)}</div>
               </div>
             </div>
-
             {/* Description */}
             <div className="info-row">
               <div className="info-item">
@@ -281,7 +247,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                 <div className="info-value-text">{description || 'Chưa có mô tả'}</div>
               </div>
             </div>
-
             {/* People */}
             <div className="info-row info-row-two-cols info-row-last">
               <div className="info-item">
@@ -310,7 +275,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
               </div>
             </div>
           </div>
-
           {/* Separate Card for Tabs */}
           <div className="job-detail-card job-detail-tabs-card">
             <div className="detail-tabs">
@@ -330,7 +294,6 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                   </button>
                 ))}
               </div>
-
               <div className="tabs-content">
                 {activeTab === 'details' && (
                   <div className="tab-placeholder">
@@ -360,5 +323,4 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
     </div>
   );
 };
-
 export default JobDetailView;

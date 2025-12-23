@@ -1,40 +1,33 @@
 import { useState, useEffect, useRef } from 'react';
 import type { Job, JobStatus, JobPriority } from '../../models';
-
 interface ColumnConfig {
     key: string;
     label: string;
     visible: boolean;
 }
-
 interface FilterDropdownProps {
     label: string;
     options: string[];
     isActive?: boolean;
     onSelect?: (value: string) => void;
 }
-
 interface ColumnSelectorProps {
     columns: ColumnConfig[];
     onToggle: (key: string) => void;
     visibleCount: number;
 }
-
 const ColumnSelector: React.FC<ColumnSelectorProps> = ({ columns, onToggle, visibleCount }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-
     return (
         <div className="relative" ref={dropdownRef}>
             <button
@@ -51,7 +44,6 @@ const ColumnSelector: React.FC<ColumnSelectorProps> = ({ columns, onToggle, visi
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
             </button>
-
             {isOpen && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[250px]">
                     <div className="p-3">
@@ -88,29 +80,24 @@ const ColumnSelector: React.FC<ColumnSelectorProps> = ({ columns, onToggle, visi
         </div>
     );
 };
-
 const FilterDropdown: React.FC<FilterDropdownProps> = ({ label, options, isActive = false, onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-
     const handleSelect = (value: string) => {
         setSelectedValue(value === '' ? null : value);
         onSelect?.(value);
         setIsOpen(false);
     };
-
     return (
         <div className="relative" ref={dropdownRef}>
             <button
@@ -126,7 +113,6 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ label, options, isActiv
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
             </button>
-
             {isOpen && options.length > 0 && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
                     <div className="py-1">
@@ -151,7 +137,6 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ label, options, isActiv
         </div>
     );
 };
-
 interface JobListViewProps {
     jobs: Job[];
     isLoading: boolean;
@@ -164,7 +149,6 @@ interface JobListViewProps {
     onItemsPerPageChange: (count: number) => void;
     onJobClick?: (jobId: string) => void;
 }
-
 const statusColors: Record<JobStatus, string> = {
     'To Do': 'bg-gray-500 text-white',
     'In Progress': 'bg-orange-500 text-white', 
@@ -172,14 +156,12 @@ const statusColors: Record<JobStatus, string> = {
     'Blocked': 'bg-red-500 text-white',
     'Done': 'bg-green-500 text-white',
 };
-
 const priorityColors: Record<JobPriority, string> = {
     'Low': 'bg-gray-500 text-white',
     'Medium': 'bg-blue-500 text-white',
     'High': 'bg-orange-500 text-white',
     'Highest': 'bg-red-500 text-white',
 };
-
 const JobListView: React.FC<JobListViewProps> = ({
     jobs,
     isLoading,
@@ -205,8 +187,6 @@ const JobListView: React.FC<JobListViewProps> = ({
         { key: 'estimatedHours', label: 'Thời gian dự kiến', visible: true },
         { key: 'endDate', label: 'Thời gian kết thúc', visible: false },
     ]);
-
-    // Filter states
     const [filters, setFilters] = useState({
         priority: '',
         group: '',
@@ -214,42 +194,32 @@ const JobListView: React.FC<JobListViewProps> = ({
         manager: '',
         assignee: ''
     });
-
     const handleFilterChange = (filterType: string, value: string) => {
         setFilters(prev => ({
             ...prev,
             [filterType]: value
         }));
     };
-
-    // Filter jobs based on current filters
     const filteredJobs = jobs.filter(job => {
-        // Search filter
         const matchesSearch = !searchTerm || 
             job.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
             job.name.toLowerCase().includes(searchTerm.toLowerCase());
-
-        // Other filters
         const matchesPriority = !filters.priority || job.priority === filters.priority;
         const matchesGroup = !filters.group || job.group === filters.group;
         const matchesStatus = !filters.status || job.status === filters.status;
         const matchesManager = !filters.manager || job.manager === filters.manager;
         const matchesAssignee = !filters.assignee || job.assignee === filters.assignee;
-
         return matchesSearch && matchesPriority && matchesGroup && matchesStatus && matchesManager && matchesAssignee;
     });
-
     const filteredCount = filteredJobs.length;
     const totalPages = Math.ceil(filteredCount / itemsPerPage);
     const visibleColumns = columns.filter(col => col.visible);
     const visibleCount = visibleColumns.length;
-
     const toggleColumn = (key: string) => {
         setColumns(prev => prev.map(col => 
             col.key === key ? { ...col, visible: !col.visible } : col
         ));
     };
-
     const renderCellContent = (job: Job, columnKey: string) => {
         switch (columnKey) {
             case 'code':
@@ -288,7 +258,6 @@ const JobListView: React.FC<JobListViewProps> = ({
                 return null;
         }
     };
-
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-64">
@@ -299,11 +268,8 @@ const JobListView: React.FC<JobListViewProps> = ({
             </div>
         );
     }
-
     return (
         <div className="animate-fadeIn">
-
-
             {/* Search and Filters - Same Row, Full Width */}
             <div className="mb-6">
                 <div className="flex items-center gap-3">
@@ -322,7 +288,6 @@ const JobListView: React.FC<JobListViewProps> = ({
                             className="w-full pl-12 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F79E61]/50 focus:border-[#F79E61]"
                         />
                     </div>
-
                     {/* Filter Buttons - 3/4 width, divided equally */}
                     <div className="flex-1 grid grid-cols-6 gap-3">
                         <ColumnSelector
@@ -363,7 +328,6 @@ const JobListView: React.FC<JobListViewProps> = ({
                     </div>
                 </div>
             </div>
-
             {/* Table */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="overflow-x-auto">
@@ -394,7 +358,6 @@ const JobListView: React.FC<JobListViewProps> = ({
                         </tbody>
                     </table>
                 </div>
-
                 {/* Pagination */}
                 <div className="flex items-center justify-end gap-4 px-4 py-3 border-t border-gray-100">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -456,5 +419,4 @@ const JobListView: React.FC<JobListViewProps> = ({
         </div>
     );
 };
-
 export default JobListView;

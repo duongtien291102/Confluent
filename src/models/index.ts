@@ -1,4 +1,3 @@
-// Project model
 export interface Project {
     id: string;
     code: string;
@@ -6,14 +5,11 @@ export interface Project {
     manager: string;
     assignee: string;
     isPinned: boolean;
-    // Extended fields
     group?: string;
     description?: string;
     startDate?: string;
     endDate?: string;
 }
-
-// Create project input
 export interface CreateProjectInput {
     name: string;
     code: string;
@@ -24,14 +20,11 @@ export interface CreateProjectInput {
     startDate: string;
     endDate: string;
 }
-
-// Auth types
 export interface LoginCredentials {
     email: string;
     password: string;
     rememberMe?: boolean;
 }
-
 export interface User {
     id: string;
     email: string;
@@ -39,8 +32,6 @@ export interface User {
     avatar?: string;
     role: string;
 }
-
-// Dashboard types
 export interface StatCard {
     id: string;
     title: string;
@@ -52,20 +43,15 @@ export interface StatCard {
     };
     color: 'blue' | 'green' | 'purple' | 'orange';
 }
-
-// API types
 export interface ApiResponse<T> {
     data: T;
     status: number;
     message: string;
 }
-
-// Job types
 export type JobStatus = 'To Do' | 'In Progress' | 'In Review' | 'Blocked' | 'Done';
 export type JobPriority = 'Low' | 'Medium' | 'High' | 'Highest';
 export type JobType = 'Bug' | 'Feature' | 'Task' | 'Improvement';
 export type JobGroup = 'UI/UX' | 'Backend' | 'Frontend' | 'Testing' | 'Database' | 'Documentation' | 'Design';
-
 export interface Job {
     id: string;
     code: string;
@@ -82,7 +68,6 @@ export interface Job {
     description?: string;
     project?: string;
 }
-
 export interface CreateJobInput {
     name: string;
     code?: string; // allow autogen if needed, keeping string for now but maybe make optional
