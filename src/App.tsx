@@ -2,8 +2,9 @@ import { useState, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { MainLayout, AddProjectModal } from './components';
 import AddJobModal from './components/job/AddJobModal';
-import { DashboardPage, LoginPage, JobListPage, JobDetailPage, TimelinePage, ChartPage } from './pages';
+import { DashboardPage, LoginPage, JobListPage, JobDetailPage, TimelinePage, ChartPage, ProjectListPage } from './pages';
 import { projectService, authService, jobService } from './services';
+import { mockProjects } from './data/projects.data';
 import type { User, CreateJobInput, CreateProjectInput } from './models';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -89,17 +90,27 @@ const AppContent: React.FC<{
   setIsProjectModalOpen
 }) => {
     const navigate = useNavigate();
-    const [currentTimeFilter, setCurrentTimeFilter] = useState('all');
-    
+    const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
+    const [dateRange, setDateRange] = useState({
+        startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+        endDate: new Date(),
+    });
+
+    const projects = mockProjects.map(p => ({ id: p.id, code: p.code, name: p.name }));
+
     const handleBack = () => {
       navigate('/job');
     };
     const handleTimeline = () => {
       navigate('/job/timeline');
     };
-    
-    const handleTimeFilterChange = (filter: string) => {
-      setCurrentTimeFilter(filter);
+
+    const handleProjectFilterChange = (projectIds: string[]) => {
+      setSelectedProjects(projectIds);
+    };
+
+    const handleDateRangeChange = (range: { startDate: Date; endDate: Date }) => {
+      setDateRange(range);
     };
     if (!isAuthenticated) {
       return (
@@ -117,11 +128,15 @@ const AppContent: React.FC<{
           onAddProject={() => setIsProjectModalOpen(true)}
           onBack={handleBack}
           onTimeline={handleTimeline}
-          onTimeFilterChange={handleTimeFilterChange}
-          currentTimeFilter={currentTimeFilter}
+          onDateRangeChange={handleDateRangeChange}
+          dateRange={dateRange}
+          projects={projects}
+          selectedProjects={selectedProjects}
+          onProjectFilterChange={handleProjectFilterChange}
         >
           <Routes>
             <Route path="/dashboard" element={<DashboardPage key={refreshKey} />} />
+            <Route path="/projects" element={<ProjectListPage key={refreshKey} />} />
             <Route path="/chart" element={<ChartPage />} />
             <Route path="/job" element={<JobListPage />} />
             <Route path="/job/timeline" element={<TimelinePage />} />

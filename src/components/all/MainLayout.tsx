@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import MainLayoutView from '../../views/all/MainLayoutView';
+
 interface MainLayoutProps {
     children: ReactNode;
     onLogout?: () => void;
@@ -8,18 +9,24 @@ interface MainLayoutProps {
     onAddProject?: () => void;
     onBack?: () => void;
     onTimeline?: () => void;
-    onTimeFilterChange?: (filter: string) => void;
-    currentTimeFilter?: string;
+    onDateRangeChange?: (range: { startDate: Date; endDate: Date }) => void;
+    dateRange?: { startDate: Date; endDate: Date };
+    projects?: { id: string; code: string; name: string }[];
+    selectedProjects?: string[];
+    onProjectFilterChange?: (projectIds: string[]) => void;
 }
-const MainLayout: React.FC<MainLayoutProps> = ({ 
-    children, 
-    onLogout, 
-    onAddJob, 
-    onAddProject, 
-    onBack, 
+const MainLayout: React.FC<MainLayoutProps> = ({
+    children,
+    onLogout,
+    onAddJob,
+    onAddProject,
+    onBack,
     onTimeline,
-    onTimeFilterChange,
-    currentTimeFilter
+    onDateRangeChange,
+    dateRange,
+    projects = [],
+    selectedProjects = [],
+    onProjectFilterChange,
 }) => {
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const location = useLocation();
@@ -42,6 +49,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     const isJobDetailPage = location.pathname.match(/^\/job\/[^/]+$/);
     const isTimelinePage = location.pathname === '/job/timeline';
     const isChartPage = location.pathname === '/chart';
+    const isDashboardPage = location.pathname === '/dashboard' || location.pathname === '/';
     return (
         <MainLayoutView
             isSidebarCollapsed={isSidebarCollapsed}
@@ -53,10 +61,14 @@ const MainLayout: React.FC<MainLayoutProps> = ({
             onTimeline={onTimeline}
             isJobPage={isJobPage}
             isChartPage={isChartPage}
+            isDashboardPage={isDashboardPage}
             showBackButton={!!(isJobDetailPage || isTimelinePage)}
             title={getPageTitle(location.pathname)}
-            onTimeFilterChange={onTimeFilterChange}
-            currentTimeFilter={currentTimeFilter}
+            onDateRangeChange={onDateRangeChange}
+            dateRange={dateRange}
+            projects={projects}
+            selectedProjects={selectedProjects}
+            onProjectFilterChange={onProjectFilterChange}
         >
             {children}
         </MainLayoutView>

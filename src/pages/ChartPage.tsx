@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ChartDashboardView } from '../views/chart';
-import { mockChartData } from '../data';
 
 const ChartPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -8,16 +7,13 @@ const ChartPage: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <ChartDashboardView 
-      data={mockChartData} 
-      isLoading={isLoading}
-    />
+    <ChartDashboardView isLoading={isLoading} />
   );
 };
 

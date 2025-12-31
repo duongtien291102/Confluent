@@ -1,4 +1,7 @@
 import type { Member } from '../../data/members.data';
+import ManagerSearchView from '../../components/dashboard/ManagerSearch';
+import MemberSelectView from '../../components/dashboard/MemberSelect';
+
 interface AddProjectModalViewProps {
     isOpen: boolean;
     isFormValid: boolean;
@@ -127,6 +130,5 @@ const AddProjectModalView: React.FC<AddProjectModalViewProps> = ({
         </div>
     );
 };
-import ManagerSearchView from '../../components/dashboard/ManagerSearch';
-import MemberSelectView from '../../components/dashboard/MemberSelect';
+
 export default AddProjectModalView;

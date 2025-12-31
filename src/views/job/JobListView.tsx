@@ -289,7 +289,7 @@ const JobListView: React.FC<JobListViewProps> = ({
                         />
                     </div>
                     {/* Filter Buttons - 3/4 width, divided equally */}
-                    <div className="flex-1 grid grid-cols-6 gap-3">
+                    <div className="flex-1 grid grid-cols-4 gap-3">
                         <ColumnSelector
                             columns={columns}
                             onToggle={toggleColumn}
@@ -312,18 +312,6 @@ const JobListView: React.FC<JobListViewProps> = ({
                             options={['To Do', 'In Progress', 'In Review', 'Blocked', 'Done']}
                             isActive={!!filters.status}
                             onSelect={(value) => handleFilterChange('status', value)}
-                        />
-                        <FilterDropdown
-                            label="Người phụ trách"
-                            options={['Nguyễn Văn A', 'Lê Văn B', 'Hoàng Thị E', 'Vũ Văn G']}
-                            isActive={!!filters.manager}
-                            onSelect={(value) => handleFilterChange('manager', value)}
-                        />
-                        <FilterDropdown
-                            label="Người thực hiện"
-                            options={['Trần Thị B', 'Lê Văn B', 'Đỗ Văn F', 'Bùi Thị H']}
-                            isActive={!!filters.assignee}
-                            onSelect={(value) => handleFilterChange('assignee', value)}
                         />
                     </div>
                 </div>

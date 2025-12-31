@@ -4,3 +4,4 @@ export { default as JobListPage } from './JobListPage';
 export { default as JobDetailPage } from './JobDetailPage';
 export { default as TimelinePage } from './TimelinePage';
 export { default as ChartPage } from './ChartPage';
+export { default as ProjectListPage } from './ProjectListPage';

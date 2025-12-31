@@ -78,10 +78,10 @@ const LoginView: React.FC<LoginViewProps> = ({
                             )}
                         </button>
                     </form>
-                    <p className="mt-8 text-center text-sm text-gray-500">
+                    {/* <p className="mt-8 text-center text-sm text-gray-500">
                         Chưa có tài khoản?{' '}
                         <a href="#" className="text-[#F79E61] font-semibold hover:text-[#e88d50] hover:underline transition-colors">Đăng ký ngay</a>
-                    </p>
+                    </p> */}
                 </div>
                 <p className="text-center text-xs text-gray-400 mt-6">© 2024 Confluent by Hoanghuy UDS.</p>
             </div>

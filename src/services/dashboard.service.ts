@@ -1,8 +1,9 @@
 import type { StatCard } from '../models';
-import { mockStats } from '../data';
+import { mockKpiStats } from '../data';
+
 export const dashboardService = {
     async getStats(): Promise<StatCard[]> {
         await new Promise((resolve) => setTimeout(resolve, 100));
-        return mockStats;
+        return mockKpiStats as unknown as StatCard[];
     },
 };

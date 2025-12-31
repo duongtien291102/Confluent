@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import SidebarView, { defaultMenuItems } from '../../views/all/SidebarView';
+import SidebarView from '../../views/all/SidebarView';
+import { defaultMenuItems } from '../../views';
 interface SidebarProps {
     isCollapsed?: boolean;
     onToggle?: () => void;
@@ -12,6 +13,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle, onLogo
         const path = location.pathname;
         if (path.includes('/dashboard')) return 'home';
         if (path.includes('/job')) return 'tasks';
+        if (path.includes('/projects')) return 'projects';
         if (path.includes('/calendar')) return 'calendar';
         if (path.includes('/chart') || path.includes('/reports')) return 'reports';
         if (path.includes('/settings')) return 'settings';
@@ -24,6 +26,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle, onLogo
                 break;
             case 'tasks':
                 navigate('/job');
+                break;
+            case 'projects':
+                navigate('/projects');
                 break;
             case 'calendar':
                 navigate('/calendar');

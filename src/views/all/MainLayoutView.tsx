@@ -10,10 +10,14 @@ interface MainLayoutViewProps {
     onTimeline?: () => void;
     isJobPage: boolean;
     isChartPage?: boolean;
+    isDashboardPage?: boolean;
     showBackButton?: boolean;
     title?: string;
-    onTimeFilterChange?: (filter: string) => void;
-    currentTimeFilter?: string;
+    onDateRangeChange?: (range: { startDate: Date; endDate: Date }) => void;
+    dateRange?: { startDate: Date; endDate: Date };
+    projects?: { id: string; code: string; name: string }[];
+    selectedProjects?: string[];
+    onProjectFilterChange?: (projectIds: string[]) => void;
 }
 const MainLayoutView: React.FC<MainLayoutViewProps> = ({
     children,
@@ -26,10 +30,14 @@ const MainLayoutView: React.FC<MainLayoutViewProps> = ({
     onTimeline,
     isJobPage,
     isChartPage = false,
+    isDashboardPage = false,
     showBackButton = false,
     title,
-    onTimeFilterChange,
-    currentTimeFilter,
+    onDateRangeChange,
+    dateRange,
+    projects = [],
+    selectedProjects = [],
+    onProjectFilterChange,
 }) => {
     return (
         <div className="flex min-h-screen bg-slate-50">
@@ -43,9 +51,13 @@ const MainLayoutView: React.FC<MainLayoutViewProps> = ({
                     onTimeline={onTimeline}
                     isJobPage={isJobPage}
                     isChartPage={isChartPage}
+                    isDashboardPage={isDashboardPage}
                     showBackButton={showBackButton}
-                    onTimeFilterChange={onTimeFilterChange}
-                    currentTimeFilter={currentTimeFilter}
+                    onDateRangeChange={onDateRangeChange}
+                    dateRange={dateRange}
+                    projects={projects}
+                    selectedProjects={selectedProjects}
+                    onProjectFilterChange={onProjectFilterChange}
                 />
                 <main className={`flex-1 overflow-y-auto ${isChartPage ? '' : 'p-6'}`}>{children}</main>
             </div>

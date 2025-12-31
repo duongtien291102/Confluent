@@ -1,50 +1,39 @@
-import type { LoginCredentials, User } from '../models';
+﻿import type { User } from '../models';
+import { loginApi } from '../api';
+
 let currentUser: User | null = null;
+
 export const authService = {
-    async login(credentials: LoginCredentials): Promise<User> {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        const { email, password } = credentials;
-        if (email === 'admin' && password === '123') {
+    async login(credentials: { email: string; password: string }): Promise<User> {
+        console.log('authService.login called');
+        const response = await loginApi.login({
+            account: credentials.email,
+            password: credentials.password,
+        });
+
+        if (response.code === 0 && response.result?.token) {
             currentUser = {
                 id: '1',
-                email: 'admin',
-                name: 'Administrator',
-                role: 'Admin',
-            };
-            return currentUser;
-        }
-        if (email && email.includes('@gmail.com') && password === '123') {
-            const username = email.split('@')[0];
-            const displayName = username.charAt(0).toUpperCase() + username.slice(1);
-            currentUser = {
-                id: Date.now().toString(), // Generate unique ID
-                email: email,
-                name: displayName,
+                email: credentials.email,
+                name: credentials.email,
                 role: 'User',
             };
             return currentUser;
         }
-        if (email && email.includes('@') && password === '123') {
-            const username = email.split('@')[0];
-            const displayName = username.charAt(0).toUpperCase() + username.slice(1);
-            currentUser = {
-                id: Date.now().toString(), // Generate unique ID
-                email: email,
-                name: displayName,
-                role: 'User',
-            };
-            return currentUser;
-        }
-        throw new Error('Invalid credentials');
+
+        throw new Error('Dang nhap that bai');
     },
+
     async logout(): Promise<void> {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        loginApi.logout();
         currentUser = null;
     },
+
     getCurrentUser(): User | null {
         return currentUser;
     },
+
     isAuthenticated(): boolean {
-        return currentUser !== null;
+        return loginApi.isAuthenticated();
     },
 };
