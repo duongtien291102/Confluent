@@ -57,7 +57,7 @@ const DepartmentBarChart: React.FC<DepartmentBarChartProps> = ({ data }) => {
                             radius={[4, 4, 0, 0]}
                             maxBarSize={60}
                         >
-                            {data.map((entry, index) => (
+                            {data.map((_, index) => (
                                 <Cell
                                     key={`cell-${index}`}
                                     fill="#C4B5FD"
