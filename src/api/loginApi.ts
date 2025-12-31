@@ -1,4 +1,4 @@
-﻿const API_BASE_URL = '/api/pmcc/v1';
+﻿const API_BASE_URL = 'https://office.uds.com.vn/api/pmcc/v1';
 
 export interface LoginRequest {
   account: string;
@@ -35,7 +35,7 @@ export const loginApi = {
 
     const data: LoginResponse = await response.json();
     console.log('Response data:', data);
-    
+
     if (data.code === 0 && data.result?.token) {
       localStorage.setItem('authToken', data.result.token);
       return data;
