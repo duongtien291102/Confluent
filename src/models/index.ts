@@ -1,3 +1,5 @@
+export * from './dashboard.model';
+
 export interface Project {
     id: string;
     code: string;
@@ -70,7 +72,7 @@ export interface Job {
 }
 export interface CreateJobInput {
     name: string;
-    code?: string; // allow autogen if needed, keeping string for now but maybe make optional
+    code?: string; 
     type: JobType;
     group: JobGroup;
     manager: string;

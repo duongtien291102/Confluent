@@ -36,25 +36,25 @@ const HomeView: React.FC<HomeViewProps> = ({ data, isLoading = false }) => {
     <div className="min-h-screen bg-[#F9FAFB]">
       {/* Main Content - Max width 1280px, centered, padding 24px */}
       <div className="max-w-[1280px] mx-auto px-6 py-6">
-        
+
         {/* 1. Summary Cards Row - 4 cards, gap 16px */}
         <div className="mb-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <KPICard 
-              label="Tổng số dự án" 
-              value={data.kpis.totalProjects} 
+            <KPICard
+              label="Tổng số dự án"
+              value={data.kpis.totalProjects}
             />
-            <KPICard 
-              label="Tổng số người tham gia" 
-              value={data.kpis.totalMembers} 
+            <KPICard
+              label="Tổng số người tham gia"
+              value={data.kpis.totalMembers}
             />
-            <KPICard 
-              label="Dự án hoàn thành" 
-              value={data.kpis.completedProjects} 
+            <KPICard
+              label="Dự án hoàn thành"
+              value={data.kpis.completedProjects}
             />
-            <KPICard 
-              label="Dự án đang thực hiện" 
-              value={data.kpis.inProgressProjects} 
+            <KPICard
+              label="Dự án đang thực hiện"
+              value={data.kpis.inProgressProjects}
             />
           </div>
         </div>
@@ -90,9 +90,9 @@ const HomeView: React.FC<HomeViewProps> = ({ data, isLoading = false }) => {
                 <h3 className="text-base font-semibold text-[#111827] mb-4">Danh sách cảnh báo</h3>
                 <div className="space-y-3 overflow-y-auto h-[300px]">
                   {data.alerts.map((alert) => (
-                    <div 
+                    <div
                       key={alert.id}
-                      className="bg-[#F59E0B] rounded-lg p-3 cursor-pointer hover:bg-[#D97706] transition-colors"
+                      className="bg-[#f0884a] rounded-lg p-3 cursor-pointer hover:bg-[#D97706] transition-colors"
                     >
                       <div className="flex items-start gap-2">
                         <div className="text-white text-sm mt-0.5">⚠️</div>

@@ -10,7 +10,7 @@ interface TaskStatusChartProps {
 }
 const TaskStatusChart: React.FC<TaskStatusChartProps> = ({ data }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  
+
   const chartData = data.map(item => ({
     name: item.status,
     value: item.count,
@@ -53,39 +53,34 @@ const TaskStatusChart: React.FC<TaskStatusChartProps> = ({ data }) => {
           const isActive = activeIndex === index;
           const itemData = data.find(d => d.status === entry.value);
           const percentage = itemData ? ((itemData.count / total) * 100).toFixed(1) : '0';
-          
+
           return (
-            <div 
-              key={index} 
-              className={`flex items-center gap-2 p-2 rounded-md transition-all duration-200 cursor-pointer ${
-                isActive ? 'bg-gray-50 shadow-sm' : 'hover:bg-gray-25'
-              }`}
+            <div
+              key={index}
+              className={`flex items-center gap-2 p-2 rounded-md transition-all duration-200 cursor-pointer ${isActive ? 'bg-gray-50 shadow-sm' : 'hover:bg-gray-25'
+                }`}
               onMouseEnter={() => setActiveIndex(index)}
               onMouseLeave={() => setActiveIndex(null)}
             >
-              <div 
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                  isActive ? 'w-4 h-4 shadow-md' : ''
-                }`}
+              <div
+                className={`w-3 h-3 rounded-full transition-all duration-200 ${isActive ? 'w-4 h-4 shadow-md' : ''
+                  }`}
                 style={{ backgroundColor: entry.color }}
               />
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <span className={`text-sm transition-colors duration-200 ${
-                    isActive ? 'text-gray-900 font-medium' : 'text-gray-700'
-                  }`}>
+                  <span className={`text-sm transition-colors duration-200 ${isActive ? 'text-gray-900 font-medium' : 'text-gray-700'
+                    }`}>
                     {entry.value}
                   </span>
-                  <span className={`text-xs transition-colors duration-200 ${
-                    isActive ? 'text-gray-700 font-medium' : 'text-gray-500'
-                  }`}>
+                  <span className={`text-xs transition-colors duration-200 ${isActive ? 'text-gray-700 font-medium' : 'text-gray-500'
+                    }`}>
                     {percentage}%
                   </span>
                 </div>
-                <div className={`text-xs transition-colors duration-200 ${
-                  isActive ? 'text-gray-600' : 'text-gray-400'
-                }`}>
-                  {itemData?.count} tasks
+                <div className={`text-xs transition-colors duration-200 ${isActive ? 'text-gray-600' : 'text-gray-400'
+                  }`}>
+                  {itemData?.count} công việc
                 </div>
               </div>
             </div>
@@ -113,8 +108,8 @@ const TaskStatusChart: React.FC<TaskStatusChartProps> = ({ data }) => {
             style={{ outline: 'none' }}
           >
             {chartData.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
+              <Cell
+                key={`cell-${index}`}
                 fill={entry.color}
                 stroke={activeIndex === index ? '#ffffff' : 'none'}
                 strokeWidth={activeIndex === index ? 2 : 0}
@@ -127,7 +122,7 @@ const TaskStatusChart: React.FC<TaskStatusChartProps> = ({ data }) => {
             ))}
           </Pie>
           <Tooltip content={<CustomTooltip />} />
-          <Legend 
+          <Legend
             content={renderLegend}
             verticalAlign="middle"
             align="right"

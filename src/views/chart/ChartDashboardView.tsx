@@ -14,14 +14,14 @@ interface ChartDashboardViewProps {
 
 const AlertIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-    <line x1="12" y1="9" x2="12" y2="13"/>
-    <line x1="12" y1="17" x2="12.01" y2="17"/>
+    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+    <line x1="12" y1="9" x2="12" y2="13" />
+    <line x1="12" y1="17" x2="12.01" y2="17" />
   </svg>
 );
 
 const AlertItem = ({ alert, onClick }: { alert: ChartDashboardData['alerts'][0]; onClick: () => void }) => (
-  <div 
+  <div
     onClick={onClick}
     className="flex items-center gap-2 p-2 bg-yellow-50 border-l-3 border-orange-400 rounded-r hover:bg-yellow-100 transition-colors cursor-pointer"
   >
@@ -49,7 +49,7 @@ const ChartDashboardView: React.FC<ChartDashboardViewProps> = ({ data, isLoading
     // Map taskCode to job ID for navigation
     const jobIdMap: { [key: string]: string } = {
       'UIUX001': '1',
-      '0012911': '2', 
+      '0012911': '2',
       'TESTING001': '3',
       'DATABASE001': '4',
       'DOCUMENTATION001': '5',
@@ -57,7 +57,7 @@ const ChartDashboardView: React.FC<ChartDashboardViewProps> = ({ data, isLoading
       'BACKEND002': '7',
       'DESIGN001': '8'
     };
-    
+
     const jobId = jobIdMap[taskCode];
     if (jobId) {
       navigate(`/job/${jobId}`);
@@ -83,12 +83,12 @@ const ChartDashboardView: React.FC<ChartDashboardViewProps> = ({ data, isLoading
             <div className="lg:col-span-7 space-y-6">
               {/* Row 1: Task Status & Priority Count */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <ChartCard title="Tỷ lệ task theo trạng thái">
+                <ChartCard title="Tỷ lệ công việc theo trạng thái">
                   <div className="h-72 flex items-center justify-center">
                     <TaskStatusChart data={data.taskStatus} />
                   </div>
                 </ChartCard>
-                <ChartCard title="Số lượng task theo mức độ ưu tiên">
+                <ChartCard title="Số lượng công việc theo mức độ ưu tiên">
                   <div className="h-64 overflow-y-auto">
                     <PriorityCountCard data={data.priorityCount} />
                   </div>
@@ -122,9 +122,9 @@ const ChartDashboardView: React.FC<ChartDashboardViewProps> = ({ data, isLoading
                 <div className="flex-1 overflow-y-auto">
                   <div className="space-y-2">
                     {data.alerts.map((alert) => (
-                      <AlertItem 
-                        key={alert.id} 
-                        alert={alert} 
+                      <AlertItem
+                        key={alert.id}
+                        alert={alert}
                         onClick={() => handleAlertClick(alert.taskCode)}
                       />
                     ))}
