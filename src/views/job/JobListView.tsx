@@ -231,7 +231,7 @@ const JobListView: React.FC<JobListViewProps> = ({
                 return <span className="text-gray-600">{job.group}</span>;
             case 'status':
                 return (
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[job.status]} truncate`}>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${statusColors[job.status]}`}>
                         {job.status}
                     </span>
                 );
