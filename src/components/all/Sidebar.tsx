@@ -17,6 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle, onLogo
         if (path.includes('/job')) return 'tasks';
         if (path.includes('/calendar')) return 'calendar';
         if (path.includes('/settings')) return 'settings';
+        if (path.includes('/edocument')) return 'edocument';
         return 'home';
     };
     const handleMenuClick = (id: string) => {
@@ -38,6 +39,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle, onLogo
                 break;
             case 'settings':
                 navigate('/settings');
+                break;
+            case 'edocument':
+                navigate('/edocument');
                 break;
             default:
                 break;
