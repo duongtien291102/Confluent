@@ -34,7 +34,7 @@ const MainLayoutView: React.FC<MainLayoutViewProps> = ({
     currentTimeFilter,
 }) => {
     return (
-        <div className="flex min-h-screen bg-slate-50 w-fit">
+        <div className="flex min-h-screen bg-slate-50">
             <SidebarContainer isCollapsed={isSidebarCollapsed} onToggle={onSidebarToggle} onLogout={onLogout} />
             <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isSidebarCollapsed ? 'ml-[70px]' : 'ml-[250px]'}`}>
                 <Header
