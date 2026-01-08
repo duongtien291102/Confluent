@@ -224,7 +224,7 @@ export const JobDetailView: React.FC<JobDetailViewProps> = ({ job, onEdit, onDel
                   <CalendarIcon />
                   <span>Ngày tạo</span>
                 </div>
-                <div className="info-value-text info-value-bold">{formatDate(job.startDate)}</div>
+                <div className="info-value-text info-value-bold">{formatDate(job.createDate)}</div>
               </div>
             </div>
             {/* Start Date */}

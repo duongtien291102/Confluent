@@ -64,6 +64,7 @@ export interface Job {
     manager: string;
     assignee: string;
     priority: JobPriority;
+    createDate: string;
     startDate: string;
     estimatedHours: number;
     endDate: string;
