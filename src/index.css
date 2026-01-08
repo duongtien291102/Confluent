@@ -1168,6 +1168,6 @@ button:focus {
 }
 
 /* Custom chart - Remove outline when focusing on the chart */
-svg:focus, g:focus {
+svg:focus, g:focus, path:focus {
   outline: none;
 }

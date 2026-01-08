@@ -47,6 +47,7 @@ const TaskStatusDonut: React.FC<TaskStatusDonutProps> = ({ data }) => {
     value: item.count,
     count: item.count,
     color: item.color,
+    status: item.status,
     percentage: item.percentage
   }));
 
@@ -55,7 +56,7 @@ const TaskStatusDonut: React.FC<TaskStatusDonutProps> = ({ data }) => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-row">
       {/* Donut Chart */}
       <div className="flex-1 flex items-center justify-center">
         <ResponsiveContainer width="100%" height={180}>
@@ -90,13 +91,10 @@ const TaskStatusDonut: React.FC<TaskStatusDonutProps> = ({ data }) => {
       </div>
 
       {/* Custom Legend */}
-      <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm mt-2">
-        {data.map((item, index) => (
+      <div className="flex flex-col justify-center gap-y-2 text-sm ml-4">
+        {chartData.map((item, index) => (
           <div key={index} className="flex items-center gap-2">
-            <div 
-              className="w-3 h-3 rounded-full"
-              style={{ backgroundColor: item.color }}
-            />
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
             <span className="text-[#6B7280]">{item.status}</span>
           </div>
         ))}
